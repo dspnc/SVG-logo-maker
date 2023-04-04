@@ -1,8 +1,13 @@
+//package for reading/writing files
 const fs = require('fs')
+//package for taking in user input
 const inquirer = require('inquirer')
+//functions from package to validate that colors are valid hex or color names
+const {validateHTMLColorHex, validateHTMLColorName} = require('validate-color')
+//the 3 shape objects from shapes.js
 const { Circle, Triangle, Square} = require('./lib/shapes.js')
 
-//array of inquirer prompts with validation
+//array of inquirer prompts with validation to make sure text is only 3 max chars and color inputs are valid
 const questions = [
     {
         type: 'input',
@@ -19,6 +24,13 @@ const questions = [
         type: 'input',
         message: 'What should the text color be? ',
         name: 'textcolor',
+        validate: (input) => {
+            if (validateHTMLColorHex(input) == true || validateHTMLColorName(input) == true) {
+                return true;
+            }
+            else return 'Not a valid color name or hex value. Start over.';
+            
+        }
     },
     {
         type: 'list',
@@ -30,10 +42,18 @@ const questions = [
         type: 'input',
         message: 'What should the shape color be? ',
         name: 'shapecolor',
+        validate: (input) => {
+            if (validateHTMLColorHex(input) == true || validateHTMLColorName(input)) {
+                return true;
+            }
+            else return 'Not a valid color name or hex value. Start over.';
+            
+        }
     },
   ];
+  
 
-//function to write finalized data to a file
+//function to write finalized data to a file and log success or error
 function writeToFile(fileName, data) {
     fs.writeFile(fileName, data, 
     (err) => err ? console.error(err) : console.log("Generated logo.svg")
@@ -41,7 +61,7 @@ function writeToFile(fileName, data) {
 }
 
 
-//takes in the inquirer responses and determines which shape to create and produces the relevant HTML
+//takes in the inquirer response data and determines which shape to create before producing the relevant HTML
 function createLogo(text, textcolor, shape, shapecolor){
     switch(shape){
         case 'Circle':
@@ -63,7 +83,7 @@ function init() {
     .prompt(questions)
     .then((response) =>
         //console.log(response)
-        writeToFile('./examples/logo.svg', createLogo(response.text, response.textcolor, response.shape, response.shapecolor))
+        writeToFile(`./examples/${response.text}-logo.svg`, createLogo(response.text, response.textcolor, response.shape, response.shapecolor))
     )
 }
 

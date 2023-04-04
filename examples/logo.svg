@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-        <html>
-        <body>
-        
-        <svg width="300" height="200">
-          <polygon points="150, 18 244, 182 56, 182" fill="lightblue" />
-          <text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" font-size="3em" fill="green">DSH</text>
+<?xml version="1.0" standalone="no"?>
+        <svg width="300" height="200" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <rect width="200" height="200" fill="#800080" />
+          <text x="33%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="5em" fill="#008000">DSH</text>
         </svg>
-        
-        </body>
-        </html>
         
